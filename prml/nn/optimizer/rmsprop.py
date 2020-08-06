@@ -3,7 +3,6 @@ from prml.nn.optimizer.optimizer import Optimizer
 
 
 class RMSProp(Optimizer):
-
     def __init__(self, parameter: dict, learning_rate=1e-3, rho=0.9, epsilon=1e-8):
         super().__init__(parameter, learning_rate)
         self.rho = rho

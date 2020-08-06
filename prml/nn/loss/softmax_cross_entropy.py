@@ -4,7 +4,6 @@ from prml.nn.function import Function
 
 
 class SoftmaxCrossEntropy(Function):
-
     def _forward(self, x, t):
         self.log_softmax = x - logsumexp(x, axis=-1, keepdims=True)
         return -t * self.log_softmax

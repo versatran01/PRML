@@ -9,12 +9,7 @@ class MultivariateGaussianMixture(RandomVariable):
     = sum_k pi_k N(x|mu_k, L_k^-1)
     """
 
-    def __init__(self,
-                 n_components,
-                 mu=None,
-                 cov=None,
-                 tau=None,
-                 coef=None):
+    def __init__(self, n_components, mu=None, cov=None, tau=None, coef=None):
         """
         construct mixture of Gaussians
 
@@ -121,13 +116,8 @@ class MultivariateGaussianMixture(RandomVariable):
 
     def _gauss(self, X):
         d = X[:, None, :] - self.mu
-        D_sq = np.sum(np.einsum('nki,kij->nkj', d, self.cov) * d, -1)
-        return (
-            np.exp(-0.5 * D_sq)
-            / np.sqrt(
-                np.linalg.det(self.cov) * (2 * np.pi) ** self.ndim
-            )
-        )
+        D_sq = np.sum(np.einsum("nki,kij->nkj", d, self.cov) * d, -1)
+        return np.exp(-0.5 * D_sq) / np.sqrt(np.linalg.det(self.cov) * (2 * np.pi) ** self.ndim)
 
     def _fit(self, X):
         cov = np.cov(X.T)
@@ -136,19 +126,11 @@ class MultivariateGaussianMixture(RandomVariable):
         self.mu = kmeans.centers
         self.cov = np.array([cov for _ in range(self.n_components)])
         self.coef = np.ones(self.n_components) / self.n_components
-        params = np.hstack(
-            (self.mu.ravel(),
-             self.cov.ravel(),
-             self.coef.ravel())
-        )
+        params = np.hstack((self.mu.ravel(), self.cov.ravel(), self.coef.ravel()))
         while True:
             stats = self._expectation(X)
             self._maximization(X, stats)
-            new_params = np.hstack(
-                (self.mu.ravel(),
-                 self.cov.ravel(),
-                 self.coef.ravel())
-            )
+            new_params = np.hstack((self.mu.ravel(), self.cov.ravel(), self.coef.ravel()))
             if np.allclose(params, new_params):
                 break
             else:
@@ -164,8 +146,7 @@ class MultivariateGaussianMixture(RandomVariable):
         self.coef = Nk / len(X)
         self.mu = (X.T @ resps / Nk).T
         d = X[:, None, :] - self.mu
-        self.cov = np.einsum(
-            'nki,nkj->kij', d, d * resps[:, :, None]) / Nk[:, None, None]
+        self.cov = np.einsum("nki,nkj->kij", d, d * resps[:, :, None]) / Nk[:, None, None]
 
     def joint_proba(self, X):
         """

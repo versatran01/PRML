@@ -1,14 +1,4 @@
-from prml import (
-    bayesnet,
-    clustering,
-    dimreduction,
-    kernel,
-    linear,
-    markov,
-    nn,
-    rv,
-    sampling
-)
+from prml import bayesnet, clustering, dimreduction, kernel, linear, markov, nn, rv, sampling
 
 
 __all__ = [
@@ -20,5 +10,5 @@ __all__ = [
     "markov",
     "nn",
     "rv",
-    "sampling"
+    "sampling",
 ]

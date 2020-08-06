@@ -34,8 +34,7 @@ def kl_divergence(q, p, data=None):
 
 
 def kl_bernoulli(q, p):
-    return (q.mean - 1) * (q.logit - p.logit) \
-        - softplus(-q.logit) + softplus(p.logit)
+    return (q.mean - 1) * (q.logit - p.logit) - softplus(-q.logit) + softplus(p.logit)
 
 
 def kl_categorical(q, p):
@@ -46,5 +45,3 @@ def kl_gaussian(q, p):
     qvar = square(q.std)
     pvar = square(p.std)
     return log(p.std) - log(q.std) + 0.5 * (qvar + square(p.mean - q.mean)) / pvar - 0.5
-
-

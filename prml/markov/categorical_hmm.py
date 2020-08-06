@@ -28,7 +28,12 @@ class CategoricalHMM(HiddenMarkovModel):
         n_hidden : int
             number of hidden states
         """
-        assert initial_proba.size == transition_proba.shape[0] == transition_proba.shape[1] == means.shape[0]
+        assert (
+            initial_proba.size
+            == transition_proba.shape[0]
+            == transition_proba.shape[1]
+            == means.shape[0]
+        )
         assert np.allclose(means.sum(axis=1), 1)
         super().__init__(initial_proba, transition_proba)
         self.ndim = means.shape[1]

@@ -36,11 +36,11 @@ class Array(object):
     def backward(self, delta=None):
         if delta is None:
             delta = np.ones_like(self.value).astype(config.dtype)
-        assert(delta.shape == self.value.shape)
+        assert delta.shape == self.value.shape
         self._backward(delta)
         backprop_queue.enqueue(self)
         depth = self.depth
-        while(len(backprop_queue)):
+        while len(backprop_queue):
             queue = backprop_queue.dequeue(depth)
             if queue.parent is not None:
                 queue.parent.backward(queue.gradtmp)
@@ -61,7 +61,7 @@ class Array(object):
     def _backward(self, delta):
         if delta is None:
             return
-        assert(delta.shape == self.shape)
+        assert delta.shape == self.shape
         if self.gradtmp is None:
             self.gradtmp = np.copy(delta)
         else:

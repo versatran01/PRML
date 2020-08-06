@@ -4,8 +4,7 @@ from prml.rv.rv import RandomVariable
 
 
 class VariationalGaussianMixture(RandomVariable):
-
-    def __init__(self, n_components=1, alpha0=None, m0=None, W0=1., dof0=None, beta0=1.):
+    def __init__(self, n_components=1, alpha0=None, m0=None, W0=1.0, dof0=None, beta0=1.0):
         """
         construct variational gaussian mixture model
         Parameters
@@ -109,10 +108,14 @@ class VariationalGaussianMixture(RandomVariable):
         d = X[:, None, :] - self.mu
         maha_sq = -0.5 * (
             self.ndim / self.beta
-            + self.dof * np.sum(
-                np.einsum("kij,nkj->nki", self.W, d) * d, axis=-1))
+            + self.dof * np.sum(np.einsum("kij,nkj->nki", self.W, d) * d, axis=-1)
+        )
         ln_pi = digamma(self.alpha) - digamma(self.alpha.sum())
-        ln_Lambda = digamma(0.5 * (self.dof - np.arange(self.ndim)[:, None])).sum(axis=0) + self.ndim * np.log(2) + np.linalg.slogdet(self.W)[1]
+        ln_Lambda = (
+            digamma(0.5 * (self.dof - np.arange(self.ndim)[:, None])).sum(axis=0)
+            + self.ndim * np.log(2)
+            + np.linalg.slogdet(self.W)[1]
+        )
         ln_r = ln_pi + 0.5 * ln_Lambda + maha_sq
         ln_r -= logsumexp(ln_r, axis=-1)[:, None]
         r = np.exp(ln_r)
@@ -122,7 +125,7 @@ class VariationalGaussianMixture(RandomVariable):
         self.component_size = r.sum(axis=0)
         Xm = (X.T.dot(r) / self.component_size).T
         d = X[:, None, :] - Xm
-        S = np.einsum('nki,nkj->kij', d, r[:, :, None] * d) / self.component_size[:, None, None]
+        S = np.einsum("nki,nkj->kij", d, r[:, :, None] * d) / self.component_size[:, None, None]
         self.alpha = self.alpha0 + self.component_size
         self.beta = self.beta0 + self.component_size
         self.mu = (self.beta0 * self.m0 + self.component_size[:, None] * Xm) / self.beta[:, None]
@@ -130,7 +133,13 @@ class VariationalGaussianMixture(RandomVariable):
         self.W = np.linalg.inv(
             np.linalg.inv(self.W0)
             + (self.component_size * S.T).T
-            + (self.beta0 * self.component_size * np.einsum('ki,kj->kij', d, d).T / (self.beta0 + self.component_size)).T)
+            + (
+                self.beta0
+                * self.component_size
+                * np.einsum("ki,kj->kij", d, d).T
+                / (self.beta0 + self.component_size)
+            ).T
+        )
         self.dof = self.dof0 + self.component_size
 
     def classify(self, X):
@@ -165,12 +174,13 @@ class VariationalGaussianMixture(RandomVariable):
         nu = self.dof + 1 - self.ndim
         L = (nu * self.beta * self.W.T / (1 + self.beta)).T
         d = X[:, None, :] - self.mu
-        maha_sq = np.sum(np.einsum('nki,kij->nkj', d, L) * d, axis=-1)
+        maha_sq = np.sum(np.einsum("nki,kij->nkj", d, L) * d, axis=-1)
         return (
             gamma(0.5 * (nu + self.ndim))
             * np.sqrt(np.linalg.det(L))
             * (1 + maha_sq / nu) ** (-0.5 * (nu + self.ndim))
-            / (gamma(0.5 * nu) * (nu * np.pi) ** (0.5 * self.ndim)))
+            / (gamma(0.5 * nu) * (nu * np.pi) ** (0.5 * self.ndim))
+        )
 
     def _pdf(self, X):
         return (self.alpha * self.student_t(X)).sum(axis=-1) / self.alpha.sum()

@@ -8,11 +8,11 @@ class FishersLinearDiscriminant(Classifier):
     Fisher's Linear discriminant model
     """
 
-    def __init__(self, w:np.ndarray=None, threshold:float=None):
+    def __init__(self, w: np.ndarray = None, threshold: float = None):
         self.w = w
         self.threshold = threshold
 
-    def fit(self, X:np.ndarray, t:np.ndarray):
+    def fit(self, X: np.ndarray, t: np.ndarray):
         """
         estimate parameter given training dataset
 
@@ -36,18 +36,21 @@ class FishersLinearDiscriminant(Classifier):
         g0.fit((X0 @ self.w))
         g1 = Gaussian()
         g1.fit((X1 @ self.w))
-        root = np.roots([
-            g1.var - g0.var,
-            2 * (g0.var * g1.mu - g1.var * g0.mu),
-            g1.var * g0.mu ** 2 - g0.var * g1.mu ** 2
-            - g1.var * g0.var * np.log(g1.var / g0.var)
-        ])
+        root = np.roots(
+            [
+                g1.var - g0.var,
+                2 * (g0.var * g1.mu - g1.var * g0.mu),
+                g1.var * g0.mu ** 2
+                - g0.var * g1.mu ** 2
+                - g1.var * g0.var * np.log(g1.var / g0.var),
+            ]
+        )
         if g0.mu < root[0] < g1.mu or g1.mu < root[0] < g0.mu:
             self.threshold = root[0]
         else:
             self.threshold = root[1]
 
-    def transform(self, X:np.ndarray):
+    def transform(self, X: np.ndarray):
         """
         project data
 
@@ -63,7 +66,7 @@ class FishersLinearDiscriminant(Classifier):
         """
         return X @ self.w
 
-    def classify(self, X:np.ndarray):
+    def classify(self, X: np.ndarray):
         """
         classify input data
 

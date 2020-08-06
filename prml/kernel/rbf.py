@@ -3,7 +3,6 @@ from prml.kernel.kernel import Kernel
 
 
 class RBF(Kernel):
-
     def __init__(self, params):
         """
         construct Radial basis kernel function

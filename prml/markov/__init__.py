@@ -10,5 +10,5 @@ __all__ = [
     "Kalman",
     "kalman_filter",
     "kalman_smoother",
-    "Particle"
+    "Particle",
 ]

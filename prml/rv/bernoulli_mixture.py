@@ -37,7 +37,7 @@ class BernoulliMixture(RandomVariable):
         if isinstance(mu, np.ndarray):
             assert mu.ndim == 2
             assert np.size(mu, 0) == self.n_components
-            assert (mu >= 0.).all() and (mu <= 1.).all()
+            assert (mu >= 0.0).all() and (mu <= 1.0).all()
             self.ndim = np.size(mu, 1)
             self.parameter["mu"] = mu
         else:
@@ -60,10 +60,9 @@ class BernoulliMixture(RandomVariable):
 
     def _log_bernoulli(self, X):
         np.clip(self.mu, 1e-10, 1 - 1e-10, out=self.mu)
-        return (
-            X[:, None, :] * np.log(self.mu)
-            + (1 - X[:, None, :]) * np.log(1 - self.mu)
-        ).sum(axis=-1)
+        return (X[:, None, :] * np.log(self.mu) + (1 - X[:, None, :]) * np.log(1 - self.mu)).sum(
+            axis=-1
+        )
 
     def _fit(self, X):
         self.mu = np.random.uniform(0.25, 0.75, size=(self.n_components, np.size(X, 1)))

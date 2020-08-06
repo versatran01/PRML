@@ -23,7 +23,7 @@ class VariationalLinearRegression(Regression):
         number of iterations performed
     """
 
-    def __init__(self, beta:float=1., a0:float=1., b0:float=1.):
+    def __init__(self, beta: float = 1.0, a0: float = 1.0, b0: float = 1.0):
         """
         construct variational linear regressor
         Parameters
@@ -41,7 +41,7 @@ class VariationalLinearRegression(Regression):
         self.a0 = a0
         self.b0 = b0
 
-    def fit(self, X:np.ndarray, t:np.ndarray, iter_max:int=100):
+    def fit(self, X: np.ndarray, t: np.ndarray, iter_max: int = 100):
         """
         variational bayesian estimation of parameter
 
@@ -66,7 +66,7 @@ class VariationalLinearRegression(Regression):
             if np.allclose(self.b, param):
                 break
 
-    def predict(self, X:np.ndarray, return_std:bool=False):
+    def predict(self, X: np.ndarray, return_std: bool = False):
         """
         make prediction of input
 

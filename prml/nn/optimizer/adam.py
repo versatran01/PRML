@@ -58,7 +58,8 @@ class Adam(Optimizer):
         lr = (
             self.learning_rate
             * (1 - self.beta2 ** self.iter_count) ** 0.5
-            / (1 - self.beta1 ** self.iter_count))
+            / (1 - self.beta1 ** self.iter_count)
+        )
         for kp in self.parameter:
             p, m1, m2 = self.parameter[kp], self.moment1[kp], self.moment2[kp]
             if p.grad is None:

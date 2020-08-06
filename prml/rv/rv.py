@@ -12,7 +12,7 @@ class RandomVariable(object):
     def __repr__(self):
         string = f"{self.__class__.__name__}(\n"
         for key, value in self.parameter.items():
-            string += (" " * 4)
+            string += " " * 4
             if isinstance(value, RandomVariable):
                 string += f"{key}={value:8}"
             else:
@@ -25,7 +25,7 @@ class RandomVariable(object):
         indent = int(indent)
         string = f"{self.__class__.__name__}(\n"
         for key, value in self.parameter.items():
-            string += (" " * indent)
+            string += " " * indent
             if isinstance(value, RandomVariable):
                 string += f"{key}=" + value.__format__(str(indent + 4))
             else:

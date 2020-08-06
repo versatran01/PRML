@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Sigmoid(Function):
-
     def _forward(self, x):
         self.out = np.tanh(x * 0.5) * 0.5 + 0.5
         return self.out

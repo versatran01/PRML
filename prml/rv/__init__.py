@@ -24,5 +24,5 @@ __all__ = [
     "MultivariateGaussianMixture",
     "StudentsT",
     "Uniform",
-    "VariationalGaussianMixture"
+    "VariationalGaussianMixture",
 ]

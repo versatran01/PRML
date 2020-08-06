@@ -2,7 +2,6 @@ from prml.nn.function import Function
 
 
 class Matmul(Function):
-
     @staticmethod
     def _forward(x, y):
         return x @ y

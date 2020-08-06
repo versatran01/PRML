@@ -2,7 +2,6 @@ from prml.nn.function import Function
 
 
 class ReLU(Function):
-
     @staticmethod
     def _forward(x):
         return x.clip(min=0)

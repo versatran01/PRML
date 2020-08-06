@@ -5,7 +5,6 @@ from prml.nn.image.util import img2patch, patch2img, patch2img_no_overlap
 
 
 class MaxPooling2d(Function):
-
     def __init__(self, pool_size, stride, pad):
         """
         construct 2 dimensional max-pooling function
@@ -27,21 +26,13 @@ class MaxPooling2d(Function):
         if isinstance(tup, int):
             tup = (tup,) * 2
         if not isinstance(tup, tuple):
-            raise TypeError(
-                "Unsupported type for {}: {}".format(name, type(tup))
-            )
+            raise TypeError("Unsupported type for {}: {}".format(name, type(tup)))
         if len(tup) != 2:
-            raise ValueError(
-                "the length of {} must be 2, not {}".format(name, len(tup))
-            )
+            raise ValueError("the length of {} must be 2, not {}".format(name, len(tup)))
         if not all([isinstance(n, int) for n in tup]):
-            raise TypeError(
-                "Unsuported type for {}".format(name)
-            )
+            raise TypeError("Unsuported type for {}".format(name))
         if not all([n >= 0 for n in tup]):
-            raise ValueError(
-                "{} must be non-negative values".format(name)
-            )
+            raise ValueError("{} must be non-negative values".format(name))
         return tup
 
     def _forward(self, x):

@@ -2,8 +2,7 @@ import numpy as np
 
 
 class RelevanceVectorClassifier(object):
-
-    def __init__(self, kernel, alpha=1.):
+    def __init__(self, kernel, alpha=1.0):
         """
         construct relevance vector classifier
 

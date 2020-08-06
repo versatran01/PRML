@@ -100,6 +100,4 @@ class Categorical(RandomVariable):
 
     def _draw(self, sample_size=1):
         assert isinstance(self.mu, np.ndarray)
-        return np.eye(self.n_classes)[
-            np.random.choice(self.n_classes, sample_size, p=self.mu)
-        ]
+        return np.eye(self.n_classes)[np.random.choice(self.n_classes, sample_size, p=self.mu)]

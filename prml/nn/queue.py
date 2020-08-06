@@ -1,5 +1,4 @@
 class BackPropQueue(object):
-
     def __init__(self):
         self.queue = []
 
@@ -24,4 +23,3 @@ class BackPropQueue(object):
 
 
 backprop_queue = BackPropQueue()
-

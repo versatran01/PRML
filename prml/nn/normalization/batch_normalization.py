@@ -7,7 +7,6 @@ from prml.nn.network import Network
 
 
 class BatchNormalizationFunction(Function):
-
     def _forward(self, x):
         self.mean = x.mean(axis=0)
         self.xc = x - self.mean
@@ -35,7 +34,6 @@ class BatchNormalizationFunction(Function):
 
 
 class BatchNormalization(Network):
-
     def __init__(self, ndim, scale=None, bias=None, momentum=0.9):
         super().__init__()
         self.momentum = momentum

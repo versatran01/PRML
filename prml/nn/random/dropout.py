@@ -3,8 +3,7 @@ from prml.nn.function import Function
 
 
 class DropoutFunction(Function):
-
-    def _forward(self, x, drop_ratio=.5):
+    def _forward(self, x, drop_ratio=0.5):
         self.coef = 1 / (1 - drop_ratio)
         self.mask = (np.random.rand(*x.shape) > drop_ratio) * self.coef
         return x * self.mask
@@ -13,5 +12,5 @@ class DropoutFunction(Function):
         return delta * self.mask
 
 
-def dropout(x, drop_ratio=.5):
+def dropout(x, drop_ratio=0.5):
     return DropoutFunction().forward(x, drop_ratio=drop_ratio)

@@ -22,7 +22,4 @@ class Kernel(object):
         output : tuple
             two array with shape (sample_size, sample_size, n_features)
         """
-        return (
-            np.tile(x, (len(y), 1, 1)).transpose(1, 0, 2),
-            np.tile(y, (len(x), 1, 1))
-        )
+        return (np.tile(x, (len(y), 1, 1)).transpose(1, 0, 2), np.tile(y, (len(x), 1, 1)))

@@ -3,7 +3,6 @@ from prml.nn.optimizer.optimizer import Optimizer
 
 
 class Momentum(Optimizer):
-
     def __init__(self, parameter: dict, learning_rate=1e-3, momentum=0.9):
         super().__init__(parameter, learning_rate)
         self.momentum = momentum

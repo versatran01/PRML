@@ -24,7 +24,7 @@ class Config(object):
 
     @is_updating_bn.setter
     def is_updating_bn(self, flag):
-        assert(isinstance(flag, bool))
+        assert isinstance(flag, bool)
         self.__is_updating_bn = flag
 
     @property
@@ -33,7 +33,7 @@ class Config(object):
 
     @enable_backprop.setter
     def enable_backprop(self, flag):
-        assert(isinstance(flag, bool))
+        assert isinstance(flag, bool)
         self.__enable_backprop = flag
 
 

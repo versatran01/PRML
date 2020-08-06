@@ -12,10 +12,10 @@ class LeastSquaresClassifier(Classifier):
     y = argmax_k X @ W
     """
 
-    def __init__(self, W:np.ndarray=None):
+    def __init__(self, W: np.ndarray = None):
         self.W = W
 
-    def fit(self, X:np.ndarray, t:np.ndarray):
+    def fit(self, X: np.ndarray, t: np.ndarray):
         """
         least squares fitting for classification
 
@@ -31,7 +31,7 @@ class LeastSquaresClassifier(Classifier):
             t = LabelTransformer().encode(t)
         self.W = np.linalg.pinv(X) @ t
 
-    def classify(self, X:np.ndarray):
+    def classify(self, X: np.ndarray):
         """
         classify input data
 

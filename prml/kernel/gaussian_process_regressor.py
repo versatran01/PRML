@@ -2,8 +2,7 @@ import numpy as np
 
 
 class GaussianProcessRegressor(object):
-
-    def __init__(self, kernel, beta=1.):
+    def __init__(self, kernel, beta=1.0):
         """
         construct gaussian process regressor
 
@@ -56,7 +55,12 @@ class GaussianProcessRegressor(object):
         for i in range(iter_max):
             gradients = self.kernel.derivatives(X, X)
             updates = np.array(
-                [-np.trace(self.precision.dot(grad)) + t.dot(self.precision.dot(grad).dot(self.precision).dot(t)) for grad in gradients])
+                [
+                    -np.trace(self.precision.dot(grad))
+                    + t.dot(self.precision.dot(grad).dot(self.precision).dot(t))
+                    for grad in gradients
+                ]
+            )
             for j in range(iter_max):
                 self.kernel.update_parameters(learning_rate * updates)
                 Gram = self.kernel(X, X)
@@ -76,7 +80,8 @@ class GaussianProcessRegressor(object):
         return -0.5 * (
             np.linalg.slogdet(self.covariance)[1]
             + self.t @ self.precision @ self.t
-            + len(self.t) * np.log(2 * np.pi))
+            + len(self.t) * np.log(2 * np.pi)
+        )
 
     def predict(self, X, with_error=False):
         """
@@ -97,9 +102,6 @@ class GaussianProcessRegressor(object):
         K = self.kernel(X, self.X)
         mean = K @ self.precision @ self.t
         if with_error:
-            var = (
-                self.kernel(X, X, False)
-                + 1 / self.beta
-                - np.sum(K @ self.precision * K, axis=1))
+            var = self.kernel(X, X, False) + 1 / self.beta - np.sum(K @ self.precision * K, axis=1)
             return mean.ravel(), np.sqrt(var.ravel())
         return mean

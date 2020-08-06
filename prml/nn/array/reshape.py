@@ -2,7 +2,6 @@ from prml.nn.function import Function
 
 
 class Reshape(Function):
-
     @staticmethod
     def _forward(x, shape):
         return x.reshape(*shape)

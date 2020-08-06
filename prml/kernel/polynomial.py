@@ -8,7 +8,7 @@ class PolynomialKernel(Kernel):
     k(x,y) = (x @ y + c)^M
     """
 
-    def __init__(self, degree=2, const=0.):
+    def __init__(self, degree=2, const=0.0):
         """
         construct Polynomial kernel
 

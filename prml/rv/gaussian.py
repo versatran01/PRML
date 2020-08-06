@@ -128,19 +128,13 @@ class Gaussian(RandomVariable):
         assert isinstance(self.var, np.ndarray)
         N = len(X)
         mu = np.mean(X, 0)
-        self.mu = (
-            (self.tau * self.mu.mu + N * self.mu.tau * mu)
-            / (N * self.mu.tau + self.tau)
-        )
+        self.mu = (self.tau * self.mu.mu + N * self.mu.tau * mu) / (N * self.mu.tau + self.tau)
 
     def _bayes_mu(self, X):
         N = len(X)
         mu = np.mean(X, 0)
         tau = self.mu.tau + N * self.tau
-        self.mu = Gaussian(
-            mu=(self.mu.mu * self.mu.tau + N * mu * self.tau) / tau,
-            tau=tau
-        )
+        self.mu = Gaussian(mu=(self.mu.mu * self.mu.tau + N * mu * self.tau) / tau, tau=tau)
 
     def _bayes_tau(self, X):
         N = len(X)
@@ -156,10 +150,7 @@ class Gaussian(RandomVariable):
         if mu_is_gaussian and not tau_is_gamma:
             mu = np.mean(X, 0)
             tau = self.mu.tau + N * self.tau
-            self.mu = Gaussian(
-                mu=(self.mu.mu * self.mu.tau + N * mu * self.tau) / tau,
-                tau=tau
-            )
+            self.mu = Gaussian(mu=(self.mu.mu * self.mu.tau + N * mu * self.tau) / tau, tau=tau)
         elif not mu_is_gaussian and tau_is_gamma:
             var = np.var(X, axis=0)
             a = self.tau.a + 0.5 * N
@@ -172,13 +163,9 @@ class Gaussian(RandomVariable):
 
     def _pdf(self, X):
         d = X - self.mu
-        return (
-            np.exp(-0.5 * self.tau * d ** 2) / np.sqrt(2 * np.pi * self.var)
-        )
+        return np.exp(-0.5 * self.tau * d ** 2) / np.sqrt(2 * np.pi * self.var)
 
     def _draw(self, sample_size=1):
         return np.random.normal(
-            loc=self.mu,
-            scale=np.sqrt(self.var),
-            size=(sample_size,) + self.shape
+            loc=self.mu, scale=np.sqrt(self.var), size=(sample_size,) + self.shape
         )

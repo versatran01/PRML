@@ -24,5 +24,5 @@ __all__ = [
     "RidgeRegression",
     "SoftmaxRegression",
     "VariationalLinearRegression",
-    "VariationalLogisticRegression"
+    "VariationalLogisticRegression",
 ]

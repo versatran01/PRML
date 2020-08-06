@@ -2,7 +2,6 @@ from prml.nn.function import Function
 
 
 class Negative(Function):
-
     @staticmethod
     def _forward(x):
         return -x

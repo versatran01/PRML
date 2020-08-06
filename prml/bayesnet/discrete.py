@@ -8,7 +8,7 @@ class DiscreteVariable(RandomVariable):
     Discrete random variable
     """
 
-    def __init__(self, n_class:int):
+    def __init__(self, n_class: int):
         """
         intialize a discrete random variable
 
@@ -85,7 +85,7 @@ class DiscreteVariable(RandomVariable):
             if func is not exclude:
                 func.receive_message(self.prior, self, proprange)
 
-    def observe(self, data:int, proprange=-1):
+    def observe(self, data: int, proprange=-1):
         """
         set observed data of this variable
 
@@ -99,7 +99,7 @@ class DiscreteVariable(RandomVariable):
             If proprange=1, the effect only propagate to the neighboring random variables.
             Default is -1, which is infinite range.
         """
-        assert(0 <= data < self.n_class)
+        assert 0 <= data < self.n_class
         self.is_observed = True
         self.receive_message(np.eye(self.n_class)[data], self, proprange=proprange)
 
@@ -201,7 +201,8 @@ class DiscreteProbability(ProbabilityFunction):
             if random_variable is not exclude:
                 self.send_message_to(random_variable, proprange)
 
-        if proprange == 0: return
+        if proprange == 0:
+            return
 
         for random_variable in self.condition:
             if random_variable is not exclude:

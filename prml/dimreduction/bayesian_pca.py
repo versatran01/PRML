@@ -3,7 +3,6 @@ from prml.dimreduction.pca import PCA
 
 
 class BayesianPCA(PCA):
-
     def fit(self, X, iter_max=100, initial="random"):
         """
         empirical bayes estimation of pca parameters
@@ -31,7 +30,7 @@ class BayesianPCA(PCA):
             print("availabel initializations are {}".format(initial_list))
         if initial == "random":
             self.W = np.eye(np.size(X, 1), self.n_components)
-            self.var = 1.
+            self.var = 1.0
         elif initial == "eigen":
             self.eigen(X)
         self.alpha = len(self.mean) / np.sum(self.W ** 2, axis=0).clip(min=1e-10)
@@ -49,11 +48,15 @@ class BayesianPCA(PCA):
         self.var = np.mean(
             np.mean(X ** 2, axis=-1)
             - 2 * np.mean(Ez @ self.W.T * X, axis=-1)
-            + np.trace((Ezz @ self.W.T @ self.W).T) / len(self.mean))
+            + np.trace((Ezz @ self.W.T @ self.W).T) / len(self.mean)
+        )
 
     def maximize(self, D, Ez, Ezz):
-        self.W = D.T.dot(Ez).dot(np.linalg.inv(np.sum(Ezz, axis=0) + self.var * np.diag(self.alpha)))
+        self.W = D.T.dot(Ez).dot(
+            np.linalg.inv(np.sum(Ezz, axis=0) + self.var * np.diag(self.alpha))
+        )
         self.var = np.mean(
             np.mean(D ** 2, axis=-1)
             - 2 * np.mean(Ez.dot(self.W.T) * D, axis=-1)
-            + np.trace(Ezz.dot(self.W.T).dot(self.W).T) / self.ndim)
+            + np.trace(Ezz.dot(self.W.T).dot(self.W).T) / self.ndim
+        )

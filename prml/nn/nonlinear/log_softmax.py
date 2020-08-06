@@ -4,7 +4,6 @@ from prml.nn.function import Function
 
 
 class LogSoftmax(Function):
-
     def _forward(self, x):
         self.output = x - logsumexp(x, axis=-1, keepdims=True)
         return self.output

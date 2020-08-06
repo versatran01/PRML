@@ -31,7 +31,13 @@ class GaussianHMM(HiddenMarkovModel):
         n_hidden : int
             number of hidden states
         """
-        assert initial_proba.size == transition_proba.shape[0] == transition_proba.shape[1] == means.shape[0] == covs.shape[0]
+        assert (
+            initial_proba.size
+            == transition_proba.shape[0]
+            == transition_proba.shape[1]
+            == means.shape[0]
+            == covs.shape[0]
+        )
         assert means.shape[1] == covs.shape[1] == covs.shape[2]
         super().__init__(initial_proba, transition_proba)
         self.ndim = means.shape[1]
@@ -63,9 +69,10 @@ class GaussianHMM(HiddenMarkovModel):
 
     def likelihood(self, X):
         diff = X[:, None, :] - self.means
-        exponents = np.sum(
-            np.einsum('nki,kij->nkj', diff, self.precisions) * diff, axis=-1)
-        return np.exp(-0.5 * exponents) / np.sqrt(np.linalg.det(self.covs) * (2 * np.pi) ** self.ndim)
+        exponents = np.sum(np.einsum("nki,kij->nkj", diff, self.precisions) * diff, axis=-1)
+        return np.exp(-0.5 * exponents) / np.sqrt(
+            np.linalg.det(self.covs) * (2 * np.pi) ** self.ndim
+        )
 
     def maximize(self, seq, p_hidden, p_transition):
         self.initial_proba = p_hidden[0] / np.sum(p_hidden[0])
@@ -73,4 +80,6 @@ class GaussianHMM(HiddenMarkovModel):
         Nk = np.sum(p_hidden, axis=0)
         self.means = (seq.T @ p_hidden / Nk).T
         diffs = seq[:, None, :] - self.means
-        self.covs = np.einsum('nki,nkj->kij', diffs, diffs * p_hidden[:, :, None]) / Nk[:, None, None]
+        self.covs = (
+            np.einsum("nki,nkj->kij", diffs, diffs * p_hidden[:, :, None]) / Nk[:, None, None]
+        )

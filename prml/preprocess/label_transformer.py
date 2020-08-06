@@ -11,7 +11,7 @@ class LabelTransformer(object):
         number of classes, K
     """
 
-    def __init__(self, n_classes:int=None):
+    def __init__(self, n_classes: int = None):
         self.n_classes = n_classes
 
     @property
@@ -27,7 +27,7 @@ class LabelTransformer(object):
     def encoder(self):
         return self.__encoder
 
-    def encode(self, class_indices:np.ndarray):
+    def encode(self, class_indices: np.ndarray):
         """
         encode class index into one-of-k code
 
@@ -47,7 +47,7 @@ class LabelTransformer(object):
 
         return self.encoder[class_indices]
 
-    def decode(self, onehot:np.ndarray):
+    def decode(self, onehot: np.ndarray):
         """
         decode one-of-k code into class index
 

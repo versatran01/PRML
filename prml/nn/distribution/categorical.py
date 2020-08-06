@@ -14,7 +14,7 @@ class Categorical(Distribution):
         super().__init__()
         if mean is not None:
             self.mean = asarray(mean)
-            assert((self.mean.value >= 0).all() and np.allclose(self.mean.value.sum(axis=-1), 1))
+            assert (self.mean.value >= 0).all() and np.allclose(self.mean.value.sum(axis=-1), 1)
             self.logit = log(self.mean)
             self._log_pdf = self._log_pdf_mean
         elif logit is not None:
@@ -56,7 +56,6 @@ class Categorical(Distribution):
 
 
 class CategoricalPDF(Function):
-
     def _forward(self, mean, x):
         proba = np.ones_like(mean)
         self.indices = np.where(x == 1)

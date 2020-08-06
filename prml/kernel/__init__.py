@@ -15,5 +15,5 @@ __all__ = [
     "GaussianProcessRegressor",
     "RelevanceVectorClassifier",
     "RelevanceVectorRegressor",
-    "SupportVectorClassifier"
+    "SupportVectorClassifier",
 ]

@@ -9,10 +9,10 @@ class RidgeRegression(Regression):
     w* = argmin |t - X @ w| + alpha * |w|_2^2
     """
 
-    def __init__(self, alpha:float=1.):
+    def __init__(self, alpha: float = 1.0):
         self.alpha = alpha
 
-    def fit(self, X:np.ndarray, t:np.ndarray):
+    def fit(self, X: np.ndarray, t: np.ndarray):
         """
         maximum a posteriori estimation of parameter
 
@@ -27,7 +27,7 @@ class RidgeRegression(Regression):
         eye = np.eye(np.size(X, 1))
         self.w = np.linalg.solve(self.alpha * eye + X.T @ X, X.T @ t)
 
-    def predict(self, X:np.ndarray):
+    def predict(self, X: np.ndarray):
         """
         make prediction given input
 

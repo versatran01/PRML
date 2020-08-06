@@ -14,7 +14,7 @@ class LogisticRegression(Classifier):
     def _sigmoid(a):
         return np.tanh(a * 0.5) * 0.5 + 0.5
 
-    def fit(self, X:np.ndarray, t:np.ndarray, max_iter:int=100):
+    def fit(self, X: np.ndarray, t: np.ndarray, max_iter: int = 100):
         """
         maximum likelihood estimation of logistic regression model
 
@@ -42,7 +42,7 @@ class LogisticRegression(Classifier):
                 break
         self.w = w
 
-    def proba(self, X:np.ndarray):
+    def proba(self, X: np.ndarray):
         """
         compute probability of input belonging class 1
 
@@ -58,7 +58,7 @@ class LogisticRegression(Classifier):
         """
         return self._sigmoid(X @ self.w)
 
-    def classify(self, X:np.ndarray, threshold:float=0.5):
+    def classify(self, X: np.ndarray, threshold: float = 0.5):
         """
         classify input data
 

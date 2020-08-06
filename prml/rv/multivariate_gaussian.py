@@ -94,7 +94,8 @@ class MultivariateGaussian(RandomVariable):
         return (
             np.exp(-0.5 * np.sum(d @ self.tau * d, axis=-1))
             * np.sqrt(np.linalg.det(self.tau))
-            / np.power(2 * np.pi, 0.5 * self.size))
+            / np.power(2 * np.pi, 0.5 * self.size)
+        )
 
     def _draw(self, sample_size=1):
         return np.random.multivariate_normal(self.mu, self.cov, sample_size)

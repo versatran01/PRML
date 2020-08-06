@@ -16,10 +16,10 @@ class EmpiricalBayesRegression(BayesianRegression):
     evidence function p(t|X,alpha,beta) = S p(t|w;X,beta)p(w|0;alpha) dw
     """
 
-    def __init__(self, alpha:float=1., beta:float=1.):
+    def __init__(self, alpha: float = 1.0, beta: float = 1.0):
         super().__init__(alpha, beta)
 
-    def fit(self, X:np.ndarray, t:np.ndarray, max_iter:int=100):
+    def fit(self, X: np.ndarray, t: np.ndarray, max_iter: int = 100):
         """
         maximization of evidence function with respect to
         the hyperparameters alpha and beta given training dataset
@@ -45,9 +45,7 @@ class EmpiricalBayesRegression(BayesianRegression):
 
             gamma = np.sum(eigenvalues / (self.alpha + eigenvalues))
             self.alpha = float(gamma / np.sum(w_mean ** 2).clip(min=1e-10))
-            self.beta = float(
-                (N - gamma) / np.sum(np.square(t - X @ w_mean))
-            )
+            self.beta = float((N - gamma) / np.sum(np.square(t - X @ w_mean)))
             if np.allclose(params, [self.alpha, self.beta]):
                 break
         self.w_mean = w_mean
@@ -63,7 +61,7 @@ class EmpiricalBayesRegression(BayesianRegression):
     def _log_posterior(self, X, t, w):
         return self._log_likelihood(X, t, w) + self._log_prior(w)
 
-    def log_evidence(self, X:np.ndarray, t:np.ndarray):
+    def log_evidence(self, X: np.ndarray, t: np.ndarray):
         """
         logarithm or the evidence function
 
@@ -81,6 +79,8 @@ class EmpiricalBayesRegression(BayesianRegression):
         N = len(t)
         D = np.size(X, 1)
         return 0.5 * (
-            D * np.log(self.alpha) + N * np.log(self.beta)
-            - np.linalg.slogdet(self.w_precision)[1] - D * np.log(2 * np.pi)
+            D * np.log(self.alpha)
+            + N * np.log(self.beta)
+            - np.linalg.slogdet(self.w_precision)[1]
+            - D * np.log(2 * np.pi)
         ) + self._log_posterior(X, t, self.w_mean)

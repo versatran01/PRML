@@ -43,13 +43,11 @@ class HiddenMarkovModel(object):
         posterior : (N, n_hidden) np.ndarray
             posterior distribution of each latent variable
         """
-        params = np.hstack(
-            (self.initial_proba.ravel(), self.transition_proba.ravel()))
+        params = np.hstack((self.initial_proba.ravel(), self.transition_proba.ravel()))
         for i in range(iter_max):
             p_hidden, p_transition = self.expect(seq)
             self.maximize(seq, p_hidden, p_transition)
-            params_new = np.hstack(
-                (self.initial_proba.ravel(), self.transition_proba.ravel()))
+            params_new = np.hstack((self.initial_proba.ravel(), self.transition_proba.ravel()))
             if np.allclose(params, params_new):
                 break
             else:
@@ -91,7 +89,12 @@ class HiddenMarkovModel(object):
         backward = np.asarray(backward)
 
         p_hidden = forward * backward
-        p_transition = self.transition_proba * likelihood[1:, None, :] * backward[1:, None, :] * forward[:-1, :, None]
+        p_transition = (
+            self.transition_proba
+            * likelihood[1:, None, :]
+            * backward[1:, None, :]
+            * forward[:-1, :, None]
+        )
         return p_hidden, p_transition
 
     def forward_backward(self, seq):

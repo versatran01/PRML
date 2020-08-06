@@ -3,7 +3,6 @@ from prml.nn.array.array import Array
 
 
 class Network(object):
-
     def __init__(self):
         self._setting_parameter = False
         self.parameter = {}

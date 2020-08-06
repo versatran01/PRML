@@ -2,7 +2,6 @@ import numpy as np
 
 
 class PCA(object):
-
     def __init__(self, n_components):
         """
         construct principal component analysis
@@ -72,12 +71,15 @@ class PCA(object):
         if index == 0:
             self.Cinv = np.linalg.inv(self.C)
         else:
-            self.Cinv = np.eye(n_features) / np.sqrt(self.var) - self.W @ np.linalg.inv(self.__M) @ self.W.T / self.var
+            self.Cinv = (
+                np.eye(n_features) / np.sqrt(self.var)
+                - self.W @ np.linalg.inv(self.__M) @ self.W.T / self.var
+            )
 
     def em(self, X, iter_max):
         self.I = np.eye(self.n_components)
         self.W = np.eye(np.size(X, 1), self.n_components)
-        self.var = 1.
+        self.var = 1.0
         for i in range(iter_max):
             W = np.copy(self.W)
             stats = self._expectation(X)
@@ -99,7 +101,8 @@ class PCA(object):
         self.var = np.mean(
             np.mean(X ** 2, axis=1)
             - 2 * np.mean(Ez @ self.W.T * X, axis=1)
-            + np.trace((Ezz @ self.W.T @ self.W).T) / np.size(X, 1))
+            + np.trace((Ezz @ self.W.T @ self.W).T) / np.size(X, 1)
+        )
 
     def transform(self, X):
         """
@@ -153,4 +156,5 @@ class PCA(object):
         return (
             np.exp(-0.5 * np.sum(d @ self.Cinv * d, axis=-1))
             / np.sqrt(np.linalg.det(self.C))
-            / np.power(2 * np.pi, 0.5 * np.size(X, 1)))
+            / np.power(2 * np.pi, 0.5 * np.size(X, 1))
+        )

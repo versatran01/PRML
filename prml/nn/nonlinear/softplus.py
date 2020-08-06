@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Softplus(Function):
-
     @staticmethod
     def _forward(x):
         return np.maximum(x, 0) + np.log1p(np.exp(-np.abs(x)))

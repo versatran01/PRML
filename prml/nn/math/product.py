@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Product(Function):
-
     def __init__(self, axis=None, keepdims=False):
         if isinstance(axis, int):
             axis = (axis,)

@@ -74,9 +74,7 @@ class Bernoulli(RandomVariable):
     def _ml(self, X):
         n_zeros = np.count_nonzero((X == 0).astype(np.int))
         n_ones = np.count_nonzero((X == 1).astype(np.int))
-        assert X.size == n_zeros + n_ones, (
-            "{X.size} is not equal to {n_zeros} plus {n_ones}"
-        )
+        assert X.size == n_zeros + n_ones, "{X.size} is not equal to {n_zeros} plus {n_ones}"
         self.mu = np.mean(X, axis=0)
 
     def _map(self, X):
@@ -84,9 +82,9 @@ class Bernoulli(RandomVariable):
         assert X.shape[1:] == self.mu.shape
         n_ones = (X == 1).sum(axis=0)
         n_zeros = (X == 0).sum(axis=0)
-        assert X.size == n_zeros.sum() + n_ones.sum(), (
-            f"{X.size} is not equal to {n_zeros} plus {n_ones}"
-        )
+        assert (
+            X.size == n_zeros.sum() + n_ones.sum()
+        ), f"{X.size} is not equal to {n_zeros} plus {n_ones}"
         n_ones = n_ones + self.mu.n_ones
         n_zeros = n_zeros + self.mu.n_zeros
         self.prob = (n_ones - 1) / (n_ones + n_zeros - 2)
@@ -96,30 +94,21 @@ class Bernoulli(RandomVariable):
         assert X.shape[1:] == self.mu.shape
         n_ones = (X == 1).sum(axis=0)
         n_zeros = (X == 0).sum(axis=0)
-        assert X.size == n_zeros.sum() + n_ones.sum(), (
-            "input X must only has 0 or 1"
-        )
+        assert X.size == n_zeros.sum() + n_ones.sum(), "input X must only has 0 or 1"
         self.mu.n_zeros += n_zeros
         self.mu.n_ones += n_ones
 
     def _pdf(self, X):
         assert isinstance(mu, np.ndarray)
-        return np.prod(
-            self.mu ** X * (1 - self.mu) ** (1 - X)
-        )
+        return np.prod(self.mu ** X * (1 - self.mu) ** (1 - X))
 
     def _draw(self, sample_size=1):
         if isinstance(self.mu, np.ndarray):
-            return (
-                self.mu > np.random.uniform(size=(sample_size,) + self.shape)
-            ).astype(np.int)
+            return (self.mu > np.random.uniform(size=(sample_size,) + self.shape)).astype(np.int)
         elif isinstance(self.mu, Beta):
             return (
                 self.mu.n_ones / (self.mu.n_ones + self.mu.n_zeros)
                 > np.random.uniform(size=(sample_size,) + self.shape)
             ).astype(np.int)
         elif isinstance(self.mu, RandomVariable):
-            return (
-                self.mu.draw(sample_size)
-                > np.random.uniform(size=(sample_size,) + self.shape)
-            )
+            return self.mu.draw(sample_size) > np.random.uniform(size=(sample_size,) + self.shape)

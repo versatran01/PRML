@@ -2,14 +2,13 @@ from prml.nn.function import Function
 
 
 class RandomVariable(Function):
-
     def __init__(self, data=None, p=None):
         if data is not None and p is not None:
             raise ValueError
         if data is not None:
             data = self._convert2array(data)
         self.data = data
-        self.observed = (data is not None)
+        self.observed = data is not None
         self.p = p
 
     def draw(self):

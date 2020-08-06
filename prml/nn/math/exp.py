@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Exp(Function):
-
     def _forward(self, x):
         self.output = np.exp(x)
         return self.output

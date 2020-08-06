@@ -30,8 +30,8 @@ class SumAxisOrKeepdims(Function):
         dx = np.broadcast_to(delta, x.shape)
         return dx
 
-class SumSimple(Function):
 
+class SumSimple(Function):
     @staticmethod
     def _forward(x):
         return x.sum()
@@ -52,4 +52,3 @@ def sum(x, axis=None, keepdims=False):
     elif axis is None and keepdims == False:
         return SumSimple().forward(x)
     return SumAxisOrKeepdims(axis=axis, keepdims=keepdims).forward(x)
-

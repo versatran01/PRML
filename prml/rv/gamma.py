@@ -82,15 +82,7 @@ class Gamma(RandomVariable):
         return self.a.size
 
     def _pdf(self, X):
-        return (
-            self.b ** self.a
-            * X ** (self.a - 1)
-            * np.exp(-self.b * X)
-            / gamma(self.a))
+        return self.b ** self.a * X ** (self.a - 1) * np.exp(-self.b * X) / gamma(self.a)
 
     def _draw(self, sample_size=1):
-        return np.random.gamma(
-            shape=self.a,
-            scale=1 / self.b,
-            size=(sample_size,) + self.shape
-        )
+        return np.random.gamma(shape=self.a, scale=1 / self.b, size=(sample_size,) + self.shape)

@@ -3,8 +3,7 @@ from prml.linear.logistic_regression import LogisticRegression
 
 
 class VariationalLogisticRegression(LogisticRegression):
-
-    def __init__(self, alpha:float=None, a0:float=1., b0:float=1.):
+    def __init__(self, alpha: float = None, a0: float = 1.0, b0: float = 1.0):
         """
         construct variational logistic regressor
 
@@ -28,7 +27,7 @@ class VariationalLogisticRegression(LogisticRegression):
             self.a0 = a0
             self.b0 = b0
 
-    def fit(self, X:np.ndarray, t:np.ndarray, iter_max:int=1000):
+    def fit(self, X: np.ndarray, t: np.ndarray, iter_max: int = 1000):
         """
         variational bayesian estimation of the parameter
 
@@ -68,7 +67,7 @@ class VariationalLogisticRegression(LogisticRegression):
                 self.b = self.b0
             return self.a / self.b
 
-    def proba(self, X:np.ndarray):
+    def proba(self, X: np.ndarray):
         """
         compute probability of input belonging class 1
 

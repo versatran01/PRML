@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Tanh(Function):
-
     def _forward(self, x):
         self.out = np.tanh(x)
         return self.out

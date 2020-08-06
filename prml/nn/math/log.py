@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Log(Function):
-
     @staticmethod
     def _forward(x):
         return np.log(x)

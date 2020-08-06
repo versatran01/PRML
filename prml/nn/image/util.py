@@ -30,8 +30,7 @@ def img2patch(img, size, step=1):
     window_strides = img.strides[1:]
     index_strides = img[(slice(None),) + slices].strides[:-1]
 
-    out_shape = tuple(
-        np.subtract(img.shape[1: -1], size) // np.array(step) + 1)
+    out_shape = tuple(np.subtract(img.shape[1:-1], size) // np.array(step) + 1)
     out_shape = (len(img),) + out_shape + size + (np.size(img, -1),)
     strides = index_strides + window_strides
     patch = as_strided(img, shape=out_shape, strides=strides)
@@ -55,9 +54,11 @@ def _patch2img(x, stride, shape):
         image
     """
     img = np.zeros(shape, dtype=x.dtype)
-    kx, ky = x.shape[3: 5]
+    kx, ky = x.shape[3:5]
     for i, j in itertools.product(range(kx), range(ky)):
-        slices = tuple(slice(b, b + s * len_, s) for b, s, len_ in zip([i, j], stride, x.shape[1: 3]))
+        slices = tuple(
+            slice(b, b + s * len_, s) for b, s, len_ in zip([i, j], stride, x.shape[1:3])
+        )
         img[(slice(None),) + slices] += x[..., i, j, :]
     return img
 

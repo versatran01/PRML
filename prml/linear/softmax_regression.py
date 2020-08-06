@@ -21,7 +21,7 @@ class SoftmaxRegression(Classifier):
         exp_a = np.exp(a - a_max)
         return exp_a / np.sum(exp_a, axis=-1, keepdims=True)
 
-    def fit(self, X:np.ndarray, t:np.ndarray, max_iter:int=100, learning_rate:float=0.1):
+    def fit(self, X: np.ndarray, t: np.ndarray, max_iter: int = 100, learning_rate: float = 0.1):
         """
         maximum likelihood estimation of the parameter
 
@@ -50,7 +50,7 @@ class SoftmaxRegression(Classifier):
                 break
         self.W = W
 
-    def proba(self, X:np.ndarray):
+    def proba(self, X: np.ndarray):
         """
         compute probability of input belonging each class
 
@@ -66,7 +66,7 @@ class SoftmaxRegression(Classifier):
         """
         return self._softmax(X @ self.W)
 
-    def classify(self, X:np.ndarray):
+    def classify(self, X: np.ndarray):
         """
         classify input data
 

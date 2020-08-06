@@ -23,11 +23,11 @@ class Perceptron(Classifier):
         """
         self.w = np.zeros(np.size(X, 1))
         for _ in range(max_epoch):
-            X_error=X[np.sign(X@self.w)!=t]
-            t_error=t[np.sign(X@self.w)!=t]
-            idx=np.random.choice(len(X_error))
-            self.w+=X_error[idx]*t_error[idx]
-            if (X@self.w*t>0).all():
+            X_error = X[np.sign(X @ self.w) != t]
+            t_error = t[np.sign(X @ self.w) != t]
+            idx = np.random.choice(len(X_error))
+            self.w += X_error[idx] * t_error[idx]
+            if (X @ self.w * t > 0).all():
                 break
 
     def classify(self, X):

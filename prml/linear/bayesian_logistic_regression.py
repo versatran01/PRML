@@ -11,10 +11,10 @@ class BayesianLogisticRegression(LogisticRegression):
     t ~ Bernoulli(t|y)
     """
 
-    def __init__(self, alpha:float=1.):
+    def __init__(self, alpha: float = 1.0):
         self.alpha = alpha
 
-    def fit(self, X:np.ndarray, t:np.ndarray, max_iter:int=100):
+    def fit(self, X: np.ndarray, t: np.ndarray, max_iter: int = 100):
         """
         bayesian estimation of logistic regression model
         using Laplace approximation
@@ -47,7 +47,7 @@ class BayesianLogisticRegression(LogisticRegression):
         self.w_mean = w
         self.w_precision = hessian
 
-    def proba(self, X:np.ndarray):
+    def proba(self, X: np.ndarray):
         """
         compute probability of input belonging class 1
 

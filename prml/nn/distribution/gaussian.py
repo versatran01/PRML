@@ -10,12 +10,11 @@ from prml.nn.random.normal import normal
 
 
 class Gaussian(Distribution):
-
     def __init__(self, mean, std):
         super().__init__()
         self.mean = asarray(mean)
         self.std = asarray(std)
-        assert((self.std.value > 0).all())
+        assert (self.std.value > 0).all()
 
     def forward(self):
         if np.prod(self.mean.shape) > np.prod(self.std.shape):
@@ -34,11 +33,7 @@ class GaussianLogPDF(Function):
 
     def _forward(self, x, mean, std):
         self.mahalanobis_distance = np.square((x - mean) / std)
-        log_pdf = -0.5 * (
-            self.mahalanobis_distance
-            + 2 * np.log(std)
-            + self.log2pi
-        )
+        log_pdf = -0.5 * (self.mahalanobis_distance + 2 * np.log(std) + self.log2pi)
         return log_pdf
 
     def _backward(self, delta, x, mean, std):
@@ -49,12 +44,11 @@ class GaussianLogPDF(Function):
 
 
 class GaussianRadial(Distribution):
-
     def __init__(self, std, ndim: int):
         super().__init__()
         self.std = asarray(std)
         self.ndim = ndim
-        assert((self.std.value >= 0).all())
+        assert (self.std.value >= 0).all()
 
     def forward(self):
         eps = normal(0, 1, (self.ndim,) + self.std.shape)

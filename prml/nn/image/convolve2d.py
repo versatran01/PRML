@@ -6,7 +6,6 @@ from prml.nn.image.util import img2patch, patch2img
 
 
 class Convolve2dFunction(Function):
-
     def __init__(self, kernel_size, stride, pad):
         """
         construct 2 dimensional convolution function
@@ -43,7 +42,6 @@ class Convolve2dFunction(Function):
 
 
 class Convolve2d(Network):
-
     def __init__(self, kernel, stride, pad):
         super().__init__()
         self.in_ch = kernel.shape[-2]

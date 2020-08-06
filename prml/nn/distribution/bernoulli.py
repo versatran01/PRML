@@ -14,7 +14,7 @@ class Bernoulli(Distribution):
         super().__init__()
         if mean is not None:
             self.mean = asarray(mean)
-            assert((self.mean.value >= 0).all() and (self.mean.value <= 1).all())
+            assert (self.mean.value >= 0).all() and (self.mean.value <= 1).all()
             self.logit = logit_func(mean)
             self._log_pdf = self._log_pdf_mu
         elif logit is not None:
@@ -25,7 +25,7 @@ class Bernoulli(Distribution):
             raise ValueError
 
     def forward(self):
-        binary = (np.random.uniform(size=self.mean.shape) < self.mean.value)
+        binary = np.random.uniform(size=self.mean.shape) < self.mean.value
         return asarray(binary)
 
     def _pdf(self, x):

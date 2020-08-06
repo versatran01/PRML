@@ -4,9 +4,4 @@ from prml.preprocess.polynomial import PolynomialFeature
 from prml.preprocess.sigmoidal import SigmoidalFeature
 
 
-__all__ = [
-    "GaussianFeature",
-    "LabelTransformer",
-    "PolynomialFeature",
-    "SigmoidalFeature"
-]
+__all__ = ["GaussianFeature", "LabelTransformer", "PolynomialFeature", "SigmoidalFeature"]

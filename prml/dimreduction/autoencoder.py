@@ -3,7 +3,6 @@ from prml import nn
 
 
 class Autoencoder(nn.Network):
-
     def __init__(self, *args):
         self.n_unit = len(args)
         super().__init__()
@@ -12,7 +11,6 @@ class Autoencoder(nn.Network):
             self.parameter[f"b_encode{i}"] = nn.asarray(np.zeros(args[i + 1]))
             self.parameter[f"w_decode{i}"] = nn.asarray(np.random.randn(args[i + 1], args[i]))
             self.parameter[f"b_decode{i}"] = nn.asarray(np.zeros(args[i]))
-
 
     def transform(self, x):
         h = x
@@ -34,5 +32,5 @@ class Autoencoder(nn.Network):
         for _ in range(n_iter):
             self.clear()
             x_ = self.forward(x)
-            log_likelihood = nn.Gaussian(x_, 1.).log_pdf(x)
+            log_likelihood = nn.Gaussian(x_, 1.0).log_pdf(x)
             optimizer.maximize(log_likelihood)

@@ -65,7 +65,9 @@ class Particle(StateSpaceModel):
 
     def predict(self):
         predicted = self.resample() @ self.system.T
-        predicted += np.random.multivariate_normal(np.zeros(self.ndim_hidden), self.cov_system, self.n_particle)
+        predicted += np.random.multivariate_normal(
+            np.zeros(self.ndim_hidden), self.cov_system, self.n_particle
+        )
         self.particle.append(predicted)
         self.weight.append(np.ones(self.n_particle) / self.n_particle)
         return predicted, self.weight[-1]
@@ -94,7 +96,8 @@ class Particle(StateSpaceModel):
             particle,
             particle_prev @ self.system.T,
             "mahalanobis",
-            VI=np.linalg.inv(self.cov_system))
+            VI=np.linalg.inv(self.cov_system),
+        )
         matrix = np.exp(-0.5 * np.square(dist))
         matrix /= np.sum(matrix, axis=1, keepdims=True)
         matrix[np.isnan(matrix)] = 1 / self.n_particle
@@ -111,7 +114,7 @@ class Particle(StateSpaceModel):
         weight *= matrix @ weight_next / (weight @ matrix)
         weight /= np.sum(weight, keepdims=True)
 
-    def smoothing(self, observed_sequence:np.ndarray=None):
+    def smoothing(self, observed_sequence: np.ndarray = None):
         if observed_sequence is not None:
             self.filtering(observed_sequence)
         while self.smoothed_until != -len(self.particle):

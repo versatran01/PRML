@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Logit(Function):
-
     @staticmethod
     def _forward(x):
         return np.arctanh(2 * x - 1) * 2

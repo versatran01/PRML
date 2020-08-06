@@ -15,7 +15,6 @@ class Add(Function):
 
 
 class AddBias(Function):
-
     @staticmethod
     def _forward(x, y):
         return x + y
@@ -28,7 +27,6 @@ class AddBias(Function):
 
 
 class AddScalar(Function):
-
     @staticmethod
     def _forward(x, y):
         return x + y

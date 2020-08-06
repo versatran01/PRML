@@ -2,7 +2,6 @@ import numpy as np
 
 
 class SupportVectorClassifier(object):
-
     def __init__(self, kernel, C=np.Inf):
         """
         construct support vector classifier
@@ -17,7 +16,7 @@ class SupportVectorClassifier(object):
         self.kernel = kernel
         self.C = C
 
-    def fit(self, X:np.ndarray, t:np.ndarray, tol:float=1e-8):
+    def fit(self, X: np.ndarray, t: np.ndarray, tol: float = 1e-8):
         """
         estimate support vectors and their parameters
 
@@ -64,9 +63,8 @@ class SupportVectorClassifier(object):
     def lagrangian_function(self):
         return (
             np.sum(self.a)
-            - self.a
-            @ (self.t * self.t[:, None] * self.kernel(self.X, self.X))
-            @ self.a)
+            - self.a @ (self.t * self.t[:, None] * self.kernel(self.X, self.X)) @ self.a
+        )
 
     def predict(self, x):
         """
@@ -100,8 +98,5 @@ class SupportVectorClassifier(object):
         distance : (sample_size,) ndarray
             distance from the boundary
         """
-        distance = np.sum(
-            self.a * self.t
-            * self.kernel(x, self.X),
-            axis=-1) + self.b
+        distance = np.sum(self.a * self.t * self.kernel(x, self.X), axis=-1) + self.b
         return distance

@@ -84,19 +84,11 @@ class StudentsT(RandomVariable):
         self.mu = np.mean(X, axis=0)
         self.tau = 1 / np.var(X, axis=0)
         self.dof = 1
-        params = np.hstack(
-            (self.mu.ravel(),
-             self.tau.ravel(),
-             self.dof)
-        )
+        params = np.hstack((self.mu.ravel(), self.tau.ravel(), self.dof))
         while True:
             E_eta, E_lneta = self._expectation(X)
             self._maximization(X, E_eta, E_lneta, learning_rate)
-            new_params = np.hstack(
-                (self.mu.ravel(),
-                 self.tau.ravel(),
-                 self.dof)
-            )
+            new_params = np.hstack((self.mu.ravel(), self.tau.ravel(), self.dof))
             if np.allclose(params, new_params):
                 break
             else:
@@ -115,10 +107,15 @@ class StudentsT(RandomVariable):
         d = X - self.mu
         self.tau = 1 / np.mean(E_eta * d ** 2, axis=0)
         N = len(X)
-        self.dof += learning_rate * 0.5 * (
-            N * np.log(0.5 * self.dof) + N
-            - N * digamma(0.5 * self.dof)
-            + np.sum(E_lneta - E_eta, axis=0)
+        self.dof += (
+            learning_rate
+            * 0.5
+            * (
+                N * np.log(0.5 * self.dof)
+                + N
+                - N * digamma(0.5 * self.dof)
+                + np.sum(E_lneta - E_eta, axis=0)
+            )
         )
 
     def _pdf(self, X):

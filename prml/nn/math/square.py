@@ -3,7 +3,6 @@ from prml.nn.function import Function
 
 
 class Square(Function):
-
     @staticmethod
     def _forward(x):
         return np.square(x)

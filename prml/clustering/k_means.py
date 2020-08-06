@@ -3,7 +3,6 @@ from scipy.spatial.distance import cdist
 
 
 class KMeans(object):
-
     def __init__(self, n_clusters):
         self.n_clusters = n_clusters
 
@@ -30,7 +29,10 @@ class KMeans(object):
             D = cdist(X, centers)
             cluster_index = np.argmin(D, axis=1)
             cluster_index = I[cluster_index]
-            centers = np.sum(X[:, None, :] * cluster_index[:, :, None], axis=0) / np.sum(cluster_index, axis=0)[:, None]
+            centers = (
+                np.sum(X[:, None, :] * cluster_index[:, :, None], axis=0)
+                / np.sum(cluster_index, axis=0)[:, None]
+            )
             if np.allclose(prev_centers, centers):
                 break
         self.centers = centers
